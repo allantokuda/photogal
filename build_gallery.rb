@@ -2,25 +2,45 @@
 
 gallery_paths = Dir.glob 'galleries/*'
 
-CSS = <<-CSS
+def render_template(main_content)
+<<-TEMPLATE
+<html>
+<head>
 <style>
-  body {
-    background: #333;
-  }
+#{File.read('style.css')}
 </style>
-CSS
+<script>
+#{File.read('gallery.js')}
+</script>
+</head>
+<body>
+<div class="fullview" style="display: none">
+  <div class="container">
+    <a href="#" onclick="openImage()">
+      <div class="image">
+      </div>
+      <img src="" width="100%" class="fullViewImage">
+    </a>
+  </div>
+</div>
+<div class="thumbview">
+#{main_content}
+</div>
+</body>
+</html>
+TEMPLATE
+end
 
 gallery_paths.each do |gallery_path|
   index_path = File.join gallery_path, 'index.html'
   image_paths = Dir.glob(File.join(gallery_path, '**/*.jpg'))
   tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
-      <a href=#{path}>
+      <a href="##{path}" onclick="openImage()">
         <img src="#{path}" height=200>
       </a>
     HTML
   end
 
-  File.write(index_path, CSS)
-  File.write(index_path, tags.join("\n"), mode: 'a')
+  File.write(index_path, render_template(tags.join("\n")))
 end
