@@ -6,12 +6,8 @@ def render_template(main_content)
 <<-TEMPLATE
 <html>
 <head>
-<style>
-#{File.read('style.css')}
-</style>
-<script>
-#{File.read('gallery.js')}
-</script>
+<link type="text/css" rel="stylesheet" href="style.css"/>
+<script src="gallery.js"></script>
 </head>
 <body>
 <div class="fullview" style="display: none">
@@ -38,7 +34,7 @@ gallery_paths.each do |gallery_path|
   tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
       <a class="thumbLink" href="##{path}">
-        <img src="thumbs/#{path}">
+        <img class="thumbnail" src="thumbs/#{path}">
       </a>
     HTML
   end
@@ -52,4 +48,8 @@ gallery_paths.each do |gallery_path|
   end
 
   File.write(index_path, render_template(tags.join("\n")))
+
+  %w(style.css gallery.js).each do |file|
+    `ln -s ../../#{file} #{File.join gallery_path, file}`
+  end
 end
