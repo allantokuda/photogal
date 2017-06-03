@@ -13,6 +13,9 @@ body {
   background-repeat: no-repeat;
 }
 
+
+
+
 .prevImageLink,
 .nextImageLink,
 .closeImageLink {
@@ -22,18 +25,8 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  background: black;
-  color: white;
   text-decoration: none;
-  opacity: 0;
   font-family: sans-serif;
-  font-size: 220px;
-}
-
-.prevImageLink:hover,
-.nextImageLink:hover,
-.closeImageLink:hover {
-  opacity: 0.3;
 }
 
 .prevImageLink,
@@ -43,12 +36,12 @@ body {
   width: 20%;
 }
 
-.prevImageLink {
-  left: 0;
-}
-
-.nextImageLink {
-  right: 0;
+.prevImageLink:hover,
+.nextImageLink:hover {
+  top: 30%;
+  bottom: 30%;
+  width: 20%;
+  font-size: 220px;
 }
 
 .closeImageLink {
@@ -58,15 +51,54 @@ body {
   height: 20%;
 }
 
-.prevImageLink:hover span:after {
+.prevImageLink span,
+.nextImageLink span,
+.closeImageLink span {
+  background: black;
+  color: white;
+  font-size: 55px;
+  opacity: 0.3;
+  position: absolute;
+  height: 25%;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.prevImageLink:hover span,
+.nextImageLink:hover span,
+.closeImageLink:hover span {
+  width: 100%;
+  height: 100%;
+  font-size: 220px;
+}
+
+.prevImageLink,
+.prevImageLink span {
+  left: 0;
+}
+
+.nextImageLink,
+.nextImageLink span {
+  right: 0;
+}
+
+.closeImageLink span {
+  top: 0;
+  right: 0;
+}
+
+.prevImageLink span:after {
   content: "\2039";
 }
 
-.nextImageLink:hover span:after {
+.nextImageLink span:after {
   content: "\203A";
 }
 
-.closeImageLink:hover span:after {
+.closeImageLink span:after {
   content: "\00D7";
 }
 

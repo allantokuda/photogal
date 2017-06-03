@@ -17,7 +17,6 @@ def render_template(main_content)
   <div class="container">
     <div class="image">
     </div>
-    <img src="" width="100%" class="fullViewImage">
   </div>
 </div>
 <div class="thumbview">
