@@ -23,11 +23,9 @@ function render() {
   get('container').style.backgroundImage = "url('" + window.imageName + "')"
 }
 
-function openImage() {
-  // Expect this to be set by a normal anchor tag before this code is executed.
-  setTimeout(function() {
-    window.imageName = window.location.hash.substring(1);
-    render()
-  });
+
+window.onhashchange = function() {
+  window.imageName = window.location.hash.substring(1);
+  render()
 }
 

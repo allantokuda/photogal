@@ -16,7 +16,7 @@ def render_template(main_content)
 <body>
 <div class="fullview" style="display: none">
   <div class="container">
-    <a href="#" onclick="openImage()">
+    <a href="#">
       <div class="image">
       </div>
       <img src="" width="100%" class="fullViewImage">
@@ -36,7 +36,7 @@ gallery_paths.each do |gallery_path|
   image_paths = Dir.glob(File.join(gallery_path, '**/*.jpg'))
   tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
-      <a href="##{path}" onclick="openImage()">
+      <a href="##{path}">
         <img src="#{path}" height=200>
       </a>
     HTML
