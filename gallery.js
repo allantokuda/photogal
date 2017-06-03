@@ -50,3 +50,23 @@ window.onhashchange = function() {
   render()
 }
 
+window.onkeydown = function(keyboardEvent) {
+  switch (keyboardEvent.key) {
+    case 'Escape':
+      window.location.hash = '#';
+      break;
+
+    case 'ArrowLeft':
+    case 'ArrowUp':
+    case 'k':
+      window.location.hash = '#' + prevImage();
+      break;
+
+    case 'ArrowRight':
+    case 'ArrowDown':
+    case 'j':
+    case ' ': // spacebar
+      window.location.hash = '#' + nextImage();
+      break;
+  }
+}
