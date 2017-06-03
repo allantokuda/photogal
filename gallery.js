@@ -18,9 +18,30 @@ function render() {
     hide('fullView');
     show('thumbView');
   }
-  //get('fullViewImage').src = window.imageName;
+
+  get('prevImageLink').href = "#" + prevImage();
+  get('nextImageLink').href = "#" + nextImage();
 
   get('container').style.backgroundImage = "url('" + window.imageName + "')"
+}
+
+function imageList() {
+  var thumbLinkElements = document.getElementsByClassName('thumbLink');
+  return Array.prototype.map.call(thumbLinkElements, function(a) {
+    return a.hash.substring(1);
+  });
+}
+
+function prevImage() {
+  var list = imageList();
+  var i = list.indexOf(window.imageName);
+  return list[(i - 1 + list.length) % list.length];
+}
+
+function nextImage() {
+  var list = imageList();
+  var i = list.indexOf(window.imageName);
+  return list[(i + 1) % list.length];
 }
 
 

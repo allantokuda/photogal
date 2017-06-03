@@ -15,12 +15,13 @@ def render_template(main_content)
 </head>
 <body>
 <div class="fullview" style="display: none">
+  <a href="#" class="prevImageLink"><span></span></a>
+  <a href="#" class="nextImageLink"><span></span></a>
+  <a href="#" class="closeImageLink"><span></span></a>
   <div class="container">
-    <a href="#">
-      <div class="image">
-      </div>
-      <img src="" width="100%" class="fullViewImage">
-    </a>
+    <div class="image">
+    </div>
+    <img src="" width="100%" class="fullViewImage">
   </div>
 </div>
 <div class="thumbview">
@@ -36,7 +37,7 @@ gallery_paths.each do |gallery_path|
   image_paths = Dir.glob(File.join(gallery_path, '**/*.jpg'))
   tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
-      <a href="##{path}">
+      <a class="thumbLink" href="##{path}">
         <img src="#{path}" height=200>
       </a>
     HTML
