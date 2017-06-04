@@ -30,7 +30,8 @@ gallery_paths.each do |gallery_path|
   File.write(gallery_index_path, load_template('gallery_template.html', image_tags.join("\n")))
 
   %w(style.css gallery.js).each do |file|
-    `ln -s ../../#{file} #{File.join gallery_path, file}`
+    symlink_path = File.join gallery_path, file
+    `ln -s ../../#{file} #{symlink_path}` unless File.exist? symlink_path
   end
 end
 
