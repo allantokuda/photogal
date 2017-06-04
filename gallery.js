@@ -26,11 +26,13 @@ function render() {
   get('prevImageLink').href = "#" + imageJump(-1);
   get('nextImageLink').href = "#" + imageJump(1);
 
-  // Preload nearby images (invisibly) for faster jump
-  get('preload1').src = imageJump(1);
-  get('preload2').src = imageJump(2);
-  get('preload3').src = imageJump(-1);
-  get('preload4').src = imageJump(-2);
+  // In next event loop, preload nearby images (invisibly) for faster jump
+  setTimeout(function() {
+    get('preload1').src = imageJump(1);
+    get('preload2').src = imageJump(2);
+    get('preload3').src = imageJump(-1);
+    get('preload4').src = imageJump(-2);
+  });
 
   get('container').style.backgroundImage = "url('" + window.imageName + "')"
 }
