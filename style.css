@@ -5,6 +5,14 @@ body {
   margin: 20px;
 }
 
+.about {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: small;
+  color: #555;
+}
+
 
 a, a:active, a:visited {
   color: #ccc;
@@ -12,6 +20,10 @@ a, a:active, a:visited {
 
 a:hover {
   color: #eee;
+}
+
+.about a {
+  color: #777;
 }
 
 .galleryLink {
