@@ -1,6 +1,33 @@
 body {
   background: #333;
+  font-family: sans-serif;
 }
+
+
+a, a:active, a:visited {
+  color: #ccc;
+}
+
+a:hover {
+  color: #eee;
+}
+
+.galleryLink {
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px;
+  min-width: 250px;
+}
+
+.galleryLink:hover {
+  background: #444;
+}
+
+.galleryLink h3 {
+  font-weight: normal;
+}
+
 
 .container {
   position: absolute;

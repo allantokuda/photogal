@@ -2,35 +2,16 @@
 
 gallery_paths = Dir.glob 'galleries/*'
 
-def render_template(main_content)
-<<-TEMPLATE
-<html>
-<head>
-<link type="text/css" rel="stylesheet" href="style.css"/>
-<script src="gallery.js"></script>
-</head>
-<body>
-<div class="fullview" style="display: none">
-  <a href="#" class="prevImageLink"><span></span></a>
-  <a href="#" class="nextImageLink"><span></span></a>
-  <a href="#" class="closeImageLink"><span></span></a>
-  <div class="container">
-    <div class="image">
-    </div>
-  </div>
-</div>
-<div class="thumbview">
-#{main_content}
-</div>
-</body>
-</html>
-TEMPLATE
+def load_template(template_file_name, main_content)
+  File.read(template_file_name).gsub('MAIN_CONTENT', main_content)
 end
 
+
+# Index per gallery
 gallery_paths.each do |gallery_path|
-  index_path = File.join gallery_path, 'index.html'
+  gallery_index_path = File.join gallery_path, 'index.html'
   image_paths = Dir.glob(File.join(gallery_path, '**/*.jpg'))
-  tags = image_paths.map { |p| File.basename p }.map do |path|
+  image_tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
       <a class="thumbLink" href="##{path}">
         <img class="thumbnail" src="thumbs/#{path}">
@@ -46,9 +27,22 @@ gallery_paths.each do |gallery_path|
     puts `convert -verbose #{path} -geometry x200 #{thumb_path}` unless File.exist? thumb_path
   end
 
-  File.write(index_path, render_template(tags.join("\n")))
+  File.write(gallery_index_path, load_template('gallery_template.html', image_tags.join("\n")))
 
   %w(style.css gallery.js).each do |file|
     `ln -s ../../#{file} #{File.join gallery_path, file}`
   end
 end
+
+
+# Site index (All galleries)
+gallery_tags = gallery_paths.map do |gallery_path|
+  gallery_thumb_path = Dir.glob(File.join(gallery_path, 'thumbs', '*')).first
+  <<-HTML
+    <a class="galleryLink" href="#{File.join gallery_path, 'index.html'}">
+      <img src="#{gallery_thumb_path}">
+      <h3>#{File.basename(gallery_path).capitalize}</h3>
+    </a>
+  HTML
+end
+File.write('index.html', load_template('index_template.html', gallery_tags.join("\n")))
