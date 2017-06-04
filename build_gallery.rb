@@ -24,17 +24,17 @@ gallery_paths.each do |gallery_path|
   image_paths = Dir.glob(File.join(gallery_path, '*.{jpg,JPG,png,PNG,gif,GIF}'))
 
   thumb_dir = File.join gallery_path, 'thumbs'
-  `mkdir -p #{thumb_dir}`
+  `mkdir -p "#{thumb_dir}"`
   image_paths.each do |path|
     # ImageMagick resize to thumbnail height
     thumb_path = File.join(thumb_dir, File.basename(path))
-    puts `convert -verbose #{path} -geometry x#{THUMB_SIZE} #{thumb_path} 2>&1` unless File.exist? thumb_path
+    puts `convert -verbose "#{path}" -geometry x#{THUMB_SIZE} "#{thumb_path}" 2>&1` unless File.exist? thumb_path
   end
 
   gallery_index_path = File.join gallery_path, 'index.html'
   image_tags = image_paths.map { |p| File.basename p }.map do |path|
     thumb_path = File.join gallery_path, 'thumbs', path
-    thumb_data = `identify #{thumb_path}`
+    thumb_data = `identify "#{thumb_path}"`
     thumb_width = thumb_data.match(' (\d+)x\d+').captures.first
     <<-HTML
       <a class="thumbLink" href="##{path}">
@@ -47,7 +47,7 @@ gallery_paths.each do |gallery_path|
 
   %w(style.css gallery.js).each do |file|
     symlink_path = File.join gallery_path, file
-    `ln -s ../../#{file} #{symlink_path}` unless File.exist? symlink_path
+    `ln -s "../../#{file}" "#{symlink_path}"` unless File.exist? symlink_path
   end
 end
 
