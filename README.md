@@ -6,6 +6,8 @@ It provides the features casual visitors will notice:
 * Sharp modern appearance
 * Easy navigation controls
 
+![PhotoGal screenshot](http://www.allantokuda.com/files/photogal_screenshot.png)
+
 It does NOT provide:
 * Photo editing - you will need to export into this from other software like Lightroom or Darktable.
 * Comments/likes/social media integration
