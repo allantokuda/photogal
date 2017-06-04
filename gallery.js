@@ -80,10 +80,6 @@ window.onresize = function() {
   stretchThumbnails();
 }
 
-window.onload = function() {
-  stretchThumbnails();
-}
-
 function stretchThumbnails() {
   var thumbs = document.getElementsByClassName('thumbnail');
 
@@ -121,3 +117,5 @@ function stretchThumbnails() {
     });
   });
 }
+
+stretchThumbnails();
