@@ -1,5 +1,7 @@
 PADDING = 5 // pixel padding between images
 PAGE_MARGIN = 20; // pixel margin of webpage
+SCALE_MIN = 175;
+SCALE_MAX = 225;
 
 function get(domClass) {
   return document.getElementsByClassName(domClass)[0]
@@ -83,9 +85,9 @@ window.onload = function() {
 function stretchThumbnails() {
   var thumbs = document.getElementsByClassName('thumbnail');
 
-  // Reset heights smaller than nominal 200px first
+  // Reset heights smaller than nominal height first
   Array.prototype.forEach.call(thumbs, function(thumb) {
-    thumb.height = 180;
+    thumb.height = SCALE_MIN;
   });
 
   // Group by vertical row
@@ -107,8 +109,7 @@ function stretchThumbnails() {
     if (naturalWidth > 0) {
       var numImagesInRow = groups[topPosition].length;
       var scale = (window.innerWidth - PAGE_MARGIN * 2 - PADDING * numImagesInRow) / naturalWidth;
-      console.log(topPosition, numImagesInRow, naturalWidth, scale, 200*scale);
-      groupHeights[topPosition] = Math.min(180 * scale * 0.98, 220);
+      groupHeights[topPosition] = Math.min(SCALE_MIN * scale * 0.98, SCALE_MAX);
     }
   });
 
