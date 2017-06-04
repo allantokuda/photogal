@@ -13,6 +13,12 @@ body {
   background-repeat: no-repeat;
 }
 
+.thumbLink {
+  float: left;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
 
 
 

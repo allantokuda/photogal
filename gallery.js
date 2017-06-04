@@ -1,3 +1,5 @@
+PADDING = 5 // pixel padding between images
+PAGE_MARGIN = 8; // pixel margin of webpage
 
 function get(domClass) {
   return document.getElementsByClassName(domClass)[0]
@@ -69,4 +71,51 @@ window.onkeydown = function(keyboardEvent) {
       window.location.hash = '#' + nextImage();
       break;
   }
+}
+
+window.onresize = function() {
+  stretchThumbnails();
+}
+
+window.onload = function() {
+  stretchThumbnails();
+}
+
+function stretchThumbnails() {
+  var thumbs = document.getElementsByClassName('thumbnail');
+
+  // Reset heights first
+  Array.prototype.forEach.call(thumbs, function(thumb) {
+    thumb.height = 200;
+  });
+
+  // Group by vertical row
+  var groups = {};
+  var groupSizes = {};
+  Array.prototype.forEach.call(thumbs, function(thumb) {
+    var rect = thumb.getBoundingClientRect();
+    var topPosition = rect.top;
+    groups[topPosition] = groups[topPosition] || []
+    groups[topPosition].push(thumb);
+    groupSizes[topPosition] = (groupSizes[topPosition] || 0) + rect.width;
+    console.log(rect.width);
+  });
+
+  // Calculate ideal height for each group so they fill the page width
+  var groupHeights = {};
+  Object.keys(groupSizes).forEach(function(topPosition) {
+    var naturalWidth = groupSizes[topPosition];
+    if (naturalWidth > 0) {
+      var numImagesInRow = groups[topPosition].length;
+      var scale = (window.innerWidth - PAGE_MARGIN * 2 - PADDING * numImagesInRow) / naturalWidth;
+      console.log(topPosition, numImagesInRow, naturalWidth, scale, 200*scale);
+      groupHeights[topPosition] = 200 * scale * 0.98;
+    }
+  });
+
+  Object.keys(groups).forEach(function(topPosition) {
+    groups[topPosition].forEach(function(thumb) {
+      thumb.height = groupHeights[topPosition];
+    });
+  });
 }
