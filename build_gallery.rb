@@ -48,11 +48,17 @@ end
 
 # Site index (All galleries)
 gallery_tags = gallery_paths.map do |gallery_path|
-  gallery_thumb_path = begin
-    config_file = File.join gallery_path, 'config.yml'
-    config = YAML.load(File.read(config_file)) if File.exist? config_file
-    config && File.join(gallery_path, 'thumbs', config['key']) || Dir.glob(File.join(gallery_path, 'thumbs', '*')).first
+  config_file = File.join gallery_path, 'config.yml'
+  config = (YAML.load(File.read(config_file)) if File.exist? config_file) || {}
+
+  next if config['unlisted'] == true
+
+  gallery_thumb_path = if config['key']
+    File.join(gallery_path, 'thumbs', config['key'])
+  else
+    Dir.glob(File.join(gallery_path, 'thumbs', '*')).first
   end
+
   <<-HTML
     <a class="galleryLink" href="#{File.join gallery_path, 'index.html'}">
       <img src="#{gallery_thumb_path}">

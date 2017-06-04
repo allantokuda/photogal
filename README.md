@@ -45,12 +45,14 @@ Then run this script, which creates generates thumbnails and and creates the `in
 
 # Gallery configuration
 
-Inside the gallery folder, a file called `config.yml` can be created, which allows
+Each gallery can have a `config.yml` file, e.g. `galleries/Example-Gallery/config.yml`. Examples:
 
-* selecting a `key` image to represent the gallery on the site index
-* more to come later
-
-Example `galleries/Example-Gallery/config.yml`
+Set a key image to represent the gallery on the site index:
 ```
 key: DSC_4567.jpg
-````
+```
+
+Make the gallery unlisted on the site index:
+```
+unlisted: true
+```
