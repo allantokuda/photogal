@@ -15,6 +15,13 @@ It does NOT provide:
 * Tagging and categorizing photos across galleries -- you can only have a simple list of galleries.
 * Rearranging photos to appear in a particular order -- you will need to rename the files to do this.
 
+# Detailed features
+- Navigation hotkeys
+- Large click area for navigation buttons
+- Thumbnail rows are automatically scaled to fill the page width. (Not a trivial problem!)
+- When viewing images full size, the neighboring images are preloaded for instantations switch
+
+
 # Dependencies
 
 This requires Ruby and ImageMagick.
