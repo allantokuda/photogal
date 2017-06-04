@@ -1,7 +1,8 @@
 PADDING = 5 // pixel padding between images
 PAGE_MARGIN = 20; // pixel margin of webpage
-SCALE_MIN = 175;
-SCALE_MAX = 225;
+SCALE_MIN = 180;
+SCALE_NOM = 200;
+SCALE_MAX = 230;
 
 function get(domClass) {
   return document.getElementsByClassName(domClass)[0]
@@ -80,42 +81,49 @@ window.onresize = function() {
   stretchThumbnails();
 }
 
+function originalWidth(thumbnail) {
+  return parseInt(thumbnail.getAttribute('data-width'), 10);
+}
+
 function stretchThumbnails() {
   var thumbs = document.getElementsByClassName('thumbnail');
 
   // Reset heights smaller than nominal height first
   Array.prototype.forEach.call(thumbs, function(thumb) {
-    thumb.removeAttribute('width');
+    thumb.width  = SCALE_MIN / SCALE_NOM * originalWidth(thumb);
     thumb.height = SCALE_MIN;
   });
 
   // Group by vertical row
   var groups = {};
-  var groupSizes = {};
+  var groupWidths = {};
   Array.prototype.forEach.call(thumbs, function(thumb) {
     var rect = thumb.getBoundingClientRect();
     var topPosition = rect.top;
     groups[topPosition] = groups[topPosition] || []
     groups[topPosition].push(thumb);
-    groupSizes[topPosition] = (groupSizes[topPosition] || 0) + rect.width;
+    groupWidths[topPosition] = (groupWidths[topPosition] || 0) + SCALE_MIN / SCALE_NOM * originalWidth(thumb);
   });
 
   // Calculate ideal height for each group so they fill the page width
   var groupHeights = {};
-  Object.keys(groupSizes).forEach(function(topPosition) {
-    var naturalWidth = groupSizes[topPosition];
+  Object.keys(groupWidths).forEach(function(topPosition) {
+    var naturalWidth = groupWidths[topPosition];
     if (naturalWidth > 0) {
       var numImagesInRow = groups[topPosition].length;
       var scale = (window.innerWidth - PAGE_MARGIN * 2 - PADDING * numImagesInRow) / naturalWidth;
-      groupHeights[topPosition] = Math.min(SCALE_MIN * scale * 0.98, SCALE_MAX);
+      groupHeights[topPosition] = Math.min(SCALE_MIN * scale * 0.95, SCALE_MAX);
     }
   });
 
   Object.keys(groups).forEach(function(topPosition) {
     groups[topPosition].forEach(function(thumb) {
+      thumb.removeAttribute('width');
       thumb.height = groupHeights[topPosition];
     });
   });
 }
 
-stretchThumbnails();
+setTimeout(function() {
+  stretchThumbnails();
+});

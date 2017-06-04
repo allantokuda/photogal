@@ -38,7 +38,7 @@ gallery_paths.each do |gallery_path|
     thumb_width = thumb_data.match(' (\d+)x\d+').captures.first
     <<-HTML
       <a class="thumbLink" href="##{path}">
-        <img class="thumbnail" src="thumbs/#{path}" width="#{thumb_width}" height="200">
+        <img class="thumbnail" src="thumbs/#{path}" width="#{thumb_width}" height="200" data-width="#{thumb_width}">
       </a>
     HTML
   end
