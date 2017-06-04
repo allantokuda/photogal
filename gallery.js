@@ -1,8 +1,9 @@
 PADDING = 5 // pixel padding between images
 PAGE_MARGIN = 20; // pixel margin of webpage
+SCROLLBAR_WIDTH = 30; // assumed max scrollbar width
 SCALE_MIN = 180;
 SCALE_NOM = 200;
-SCALE_MAX = 230;
+SCALE_MAX = 270;
 
 function get(domClass) {
   return document.getElementsByClassName(domClass)[0]
@@ -88,10 +89,13 @@ function originalWidth(thumbnail) {
 function stretchThumbnails() {
   var thumbs = document.getElementsByClassName('thumbnail');
 
+  // Allow smaller than normal minimum if the window is very narrow
+  scale_min = Math.min(SCALE_MIN, window.innerWidth / 3.5);
+
   // Reset heights smaller than nominal height first
   Array.prototype.forEach.call(thumbs, function(thumb) {
-    thumb.width  = SCALE_MIN / SCALE_NOM * originalWidth(thumb);
-    thumb.height = SCALE_MIN;
+    thumb.width  = scale_min / SCALE_NOM * originalWidth(thumb);
+    thumb.height = scale_min;
   });
 
   // Group by vertical row
@@ -102,7 +106,7 @@ function stretchThumbnails() {
     var topPosition = rect.top;
     groups[topPosition] = groups[topPosition] || []
     groups[topPosition].push(thumb);
-    groupWidths[topPosition] = (groupWidths[topPosition] || 0) + SCALE_MIN / SCALE_NOM * originalWidth(thumb);
+    groupWidths[topPosition] = (groupWidths[topPosition] || 0) + scale_min / SCALE_NOM * originalWidth(thumb);
   });
 
   // Calculate ideal height for each group so they fill the page width
@@ -111,8 +115,8 @@ function stretchThumbnails() {
     var naturalWidth = groupWidths[topPosition];
     if (naturalWidth > 0) {
       var numImagesInRow = groups[topPosition].length;
-      var scale = (window.innerWidth - PAGE_MARGIN * 2 - PADDING * numImagesInRow) / naturalWidth;
-      groupHeights[topPosition] = Math.min(SCALE_MIN * scale * 0.95, SCALE_MAX);
+      var scale = (window.innerWidth - PAGE_MARGIN * 2 - SCROLLBAR_WIDTH - PADDING * numImagesInRow) / naturalWidth;
+      groupHeights[topPosition] = Math.min(scale_min * scale, SCALE_MAX);
     }
   });
 
