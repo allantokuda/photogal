@@ -42,7 +42,7 @@ gallery_tags = gallery_paths.map do |gallery_path|
   <<-HTML
     <a class="galleryLink" href="#{File.join gallery_path, 'index.html'}">
       <img src="#{gallery_thumb_path}">
-      <h3>#{File.basename(gallery_path).capitalize}</h3>
+      <h3>#{File.basename(gallery_path).gsub(/[-_]/, ' ')}</h3>
     </a>
   HTML
 end
