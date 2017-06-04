@@ -89,6 +89,7 @@ function stretchThumbnails() {
 
   // Reset heights smaller than nominal height first
   Array.prototype.forEach.call(thumbs, function(thumb) {
+    thumb.removeAttribute('width');
     thumb.height = SCALE_MIN;
   });
 
@@ -101,7 +102,6 @@ function stretchThumbnails() {
     groups[topPosition] = groups[topPosition] || []
     groups[topPosition].push(thumb);
     groupSizes[topPosition] = (groupSizes[topPosition] || 0) + rect.width;
-    console.log(rect.width);
   });
 
   // Calculate ideal height for each group so they fill the page width

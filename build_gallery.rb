@@ -2,6 +2,8 @@
 
 require 'yaml'
 
+THUMB_SIZE=200
+
 gallery_paths = Dir.glob 'galleries/*'
 
 def load_template(template_file_name, substitutions)
@@ -19,22 +21,26 @@ end
 
 # Index per gallery
 gallery_paths.each do |gallery_path|
-  gallery_index_path = File.join gallery_path, 'index.html'
   image_paths = Dir.glob(File.join(gallery_path, '*.{jpg,JPG,png,PNG,gif,GIF}'))
-  image_tags = image_paths.map { |p| File.basename p }.map do |path|
-    <<-HTML
-      <a class="thumbLink" href="##{path}">
-        <img class="thumbnail" src="thumbs/#{path}">
-      </a>
-    HTML
-  end
 
   thumb_dir = File.join gallery_path, 'thumbs'
   `mkdir -p #{thumb_dir}`
   image_paths.each do |path|
     # ImageMagick resize to thumbnail height
     thumb_path = File.join(thumb_dir, File.basename(path))
-    puts `convert -verbose #{path} -geometry x200 #{thumb_path}` unless File.exist? thumb_path
+    puts `convert -verbose #{path} -geometry x#{THUMB_SIZE} #{thumb_path} 2>&1` unless File.exist? thumb_path
+  end
+
+  gallery_index_path = File.join gallery_path, 'index.html'
+  image_tags = image_paths.map { |p| File.basename p }.map do |path|
+    thumb_path = File.join gallery_path, 'thumbs', path
+    thumb_data = `identify #{thumb_path}`
+    thumb_width = thumb_data.match(' (\d+)x\d+').captures.first
+    <<-HTML
+      <a class="thumbLink" href="##{path}">
+        <img class="thumbnail" src="thumbs/#{path}" width="#{thumb_width}" height="200">
+      </a>
+    HTML
   end
 
   File.write(gallery_index_path, load_template('gallery_template.html', { MAIN_CONTENT: image_tags.join("\n"), TITLE: gallery_title(gallery_path) }))
