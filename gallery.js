@@ -83,9 +83,9 @@ window.onload = function() {
 function stretchThumbnails() {
   var thumbs = document.getElementsByClassName('thumbnail');
 
-  // Reset heights first
+  // Reset heights smaller than nominal 200px first
   Array.prototype.forEach.call(thumbs, function(thumb) {
-    thumb.height = 200;
+    thumb.height = 180;
   });
 
   // Group by vertical row
@@ -108,7 +108,7 @@ function stretchThumbnails() {
       var numImagesInRow = groups[topPosition].length;
       var scale = (window.innerWidth - PAGE_MARGIN * 2 - PADDING * numImagesInRow) / naturalWidth;
       console.log(topPosition, numImagesInRow, naturalWidth, scale, 200*scale);
-      groupHeights[topPosition] = 200 * scale * 0.98;
+      groupHeights[topPosition] = Math.min(180 * scale * 0.98, 220);
     }
   });
 
