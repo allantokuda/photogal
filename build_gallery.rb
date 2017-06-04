@@ -18,7 +18,7 @@ end
 # Index per gallery
 gallery_paths.each do |gallery_path|
   gallery_index_path = File.join gallery_path, 'index.html'
-  image_paths = Dir.glob(File.join(gallery_path, '*.jpg'))
+  image_paths = Dir.glob(File.join(gallery_path, '*.{jpg,JPG,png,PNG,gif,GIF}'))
   image_tags = image_paths.map { |p| File.basename p }.map do |path|
     <<-HTML
       <a class="thumbLink" href="##{path}">
