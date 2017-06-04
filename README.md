@@ -42,3 +42,15 @@ Then run this script, which creates generates thumbnails and and creates the `in
 ```
 ./build_gallery.rb
 ```
+
+# Gallery configuration
+
+Inside the gallery folder, a file called `config.yml` can be created, which allows
+
+* selecting a `key` image to represent the gallery on the site index
+* more to come later
+
+Example `galleries/Example-Gallery/config.yml`
+```
+key: DSC_4567.jpg
+````

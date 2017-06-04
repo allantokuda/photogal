@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
+
 gallery_paths = Dir.glob 'galleries/*'
 
 def load_template(template_file_name, substitutions)
@@ -46,7 +48,11 @@ end
 
 # Site index (All galleries)
 gallery_tags = gallery_paths.map do |gallery_path|
-  gallery_thumb_path = Dir.glob(File.join(gallery_path, 'thumbs', '*')).first
+  gallery_thumb_path = begin
+    config_file = File.join gallery_path, 'config.yml'
+    config = YAML.load(File.read(config_file)) if File.exist? config_file
+    config && File.join(gallery_path, 'thumbs', config['key']) || Dir.glob(File.join(gallery_path, 'thumbs', '*')).first
+  end
   <<-HTML
     <a class="galleryLink" href="#{File.join gallery_path, 'index.html'}">
       <img src="#{gallery_thumb_path}">
