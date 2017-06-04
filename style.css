@@ -28,6 +28,10 @@ a:hover {
   font-weight: normal;
 }
 
+.preload {
+  position: absolute;
+  display: none;
+}
 
 .container {
   position: absolute;
