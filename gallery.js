@@ -1,5 +1,5 @@
 PADDING = 5 // pixel padding between images
-PAGE_MARGIN = 8; // pixel margin of webpage
+PAGE_MARGIN = 20; // pixel margin of webpage
 
 function get(domClass) {
   return document.getElementsByClassName(domClass)[0]

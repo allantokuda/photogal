@@ -2,8 +2,16 @@
 
 gallery_paths = Dir.glob 'galleries/*'
 
-def load_template(template_file_name, main_content)
-  File.read(template_file_name).gsub('MAIN_CONTENT', main_content)
+def load_template(template_file_name, substitutions)
+  template = File.read(template_file_name)
+  substitutions.each do |key, val|
+    template.gsub!(key.to_s, val)
+  end
+  template
+end
+
+def gallery_title(path)
+  File.basename(path).gsub(/[-_]/, ' ')
 end
 
 
@@ -27,7 +35,7 @@ gallery_paths.each do |gallery_path|
     puts `convert -verbose #{path} -geometry x200 #{thumb_path}` unless File.exist? thumb_path
   end
 
-  File.write(gallery_index_path, load_template('gallery_template.html', image_tags.join("\n")))
+  File.write(gallery_index_path, load_template('gallery_template.html', { MAIN_CONTENT: image_tags.join("\n"), TITLE: gallery_title(gallery_path) }))
 
   %w(style.css gallery.js).each do |file|
     symlink_path = File.join gallery_path, file
@@ -42,8 +50,8 @@ gallery_tags = gallery_paths.map do |gallery_path|
   <<-HTML
     <a class="galleryLink" href="#{File.join gallery_path, 'index.html'}">
       <img src="#{gallery_thumb_path}">
-      <h3>#{File.basename(gallery_path).gsub(/[-_]/, ' ')}</h3>
+      <h3>#{gallery_title(gallery_path)}</h3>
     </a>
   HTML
 end
-File.write('index.html', load_template('index_template.html', gallery_tags.join("\n")))
+File.write('index.html', load_template('index_template.html', { MAIN_CONTENT: gallery_tags.join("\n") }))

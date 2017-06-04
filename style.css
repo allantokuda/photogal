@@ -1,6 +1,8 @@
 body {
   background: #333;
+  color: #ccc;
   font-family: sans-serif;
+  margin: 20px;
 }
 
 
@@ -24,7 +26,7 @@ a:hover {
   background: #444;
 }
 
-.galleryLink h3 {
+h1, h3 {
   font-weight: normal;
 }
 
@@ -46,7 +48,7 @@ a:hover {
 
 .thumbLink {
   float: left;
-  margin-left: 5px;
+  margin-right: 5px;
   margin-bottom: 5px;
 }
 
